@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Valentine’s Day ❤️ | Just for You Bangaraa</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box;}
+
+body{
+  margin:0;
+  min-height:100vh;
+  font-family:'Poppins',sans-serif;
+  background:linear-gradient(135deg,#ff5f6d,#ffc371);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  color:#fff;
+}
+
+.card{
+  background:rgba(255,255,255,0.15);
+  backdrop-filter:blur(10px);
+  border-radius:24px;
+  padding:40px 32px;
+  width:min(92%,420px);
+  text-align:center;
+  box-shadow:0 20px 50px rgba(0,0,0,0.25);
+  animation:float 4s ease-in-out infinite;
+}
+
+h1{
+  font-family:'Great Vibes',cursive;
+  font-size:3rem;
+  margin:0 0 12px;
+}
+
+button{
+  background:#ff2f68;
+  border:none;
+  padding:14px 28px;
+  border-radius:999px;
+  color:#fff;
+  font-size:1rem;
+  cursor:pointer;
+  margin:10px 0;
+  transition:.2s;
+}
+button:hover{ transform:scale(1.05); }
+
+.popup{
+  position:fixed;
+  inset:0;
+  background:linear-gradient(135deg,#ff5f6d,#ffc371);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:9999;
+}
+
+.slideshow img{
+  width:100%;
+  max-height:260px;
+  object-fit:cover;
+  border-radius:16px;
+  display:none;
+  margin:16px 0;
+}
+.slideshow img.active{ display:block; }
+
+.hearts span{
+  position:absolute;
+  bottom:-20px;
+  font-size:20px;
+  animation:rise 6s linear infinite;
+  opacity:.8;
+}
+
+@keyframes rise{
+  0%{transform:translateY(0) scale(.8);opacity:0;}
+  10%{opacity:1;}
+  100%{transform:translateY(-120vh) scale(1.4);opacity:0;}
+}
+
+@keyframes float{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-10px);}
+}
+</style>
+</head>
+
+<body>
+
+<audio id="dedicatedSong" src="your-song.mp3"></audio>
+<audio id="bgMusic" src="bg-music.mp3"></audio>
+
+<!-- INTRO -->
+<div id="introPopup" class="popup">
+  <div class="card">
+    <h2>🎧 Wear the earphones for better sound</h2>
+    <button onclick="startIntro()">Yes 💖</button>
+    <button onclick="rejectIntro()" style="background:#333;">No 😅</button>
+  </div>
+</div>
+
+<!-- SONG PRANK -->
+<div id="songPopup" class="popup" style="display:none;">
+  <div class="card" id="popupContent">
+    <h2>I am dedicating one beautiful song for you 💖</h2>
+    <button id="runButton">Yes 🎵</button>
+  </div>
+</div>
+
+<!-- MAIN CARD -->
+<div class="card" id="mainCard" style="display:none;">
+  <div id="sceneText">
+    I start my bike… just to come see you 🏍️
+  </div>
+
+  <h1>Happy Valentine’s Day</h1>
+  <p>To the one who makes my world brighter every single day 💕</p>
+
+  <button onclick="showLove()">Tap to Feel My Love ❤️</button>
+
+  <div class="slideshow">
+    <img src="IMG_2898.jpg" class="active">
+    <img src="IMG_4228.jpg">
+    <img src="IMG_4899.jpg">
+    <img src="IMG_4915.jpg">
+    <img src="IMG_4970.jpg">
+    <img src="IMG_7208.jpg">
+  </div>
+</div>
+
+<!-- WISH CARD -->
+<div class="card" id="wishCard" style="display:none;">
+  <h1>My Valentine 💖</h1>
+  <p>
+    This is my little world made just for you.
+    Every heartbeat of mine whispers your name.
+    <br><br>
+    No distance, no silence, no time can change what I feel.
+    You are my today, my tomorrow, my always.
+    <br><br>
+    Happy Valentine’s Day, Bangaraa! ❤️
+  </p>
+</div>
+
+<div class="hearts" id="hearts"></div>
+
+<script>
+
+/* INTRO */
+function startIntro(){
+  document.getElementById("introPopup").style.display="none";
+  document.getElementById("songPopup").style.display="flex";
+}
+function rejectIntro(){
+  document.getElementById("introPopup").innerHTML=
+  "<div class='card'><h2>Better luck next time 😅</h2><p>Love you always 💕</p></div>";
+}
+
+/* PRANK GAME */
+let moveCount=0;
+const maxMoves=10;
+const runButton=document.getElementById("runButton");
+const popupContent=document.getElementById("popupContent");
+const song=document.getElementById("dedicatedSong");
+
+runButton.addEventListener("mouseover",()=>{
+  if(moveCount<maxMoves){
+    runButton.style.position="relative";
+    runButton.style.left=(Math.random()*200-100)+"px";
+    runButton.style.top=(Math.random()*200-100)+"px";
+    moveCount++;
+  }else{
+    showQuestion();
+  }
+});
+
+function showQuestion(){
+  popupContent.innerHTML=`
+    <h2>Are you still trying to play like this? 😏</h2>
+    <button id="yesGame">Yes 😅</button>
+    <button id="noGame" style="background:#333;">No 🙄</button>
+  `;
+
+  speak("Are you still trying to play like this?");
+
+  document.getElementById("yesGame").onclick=()=>{
+    moveCount=0;
+    popupContent.innerHTML=`
+      <h2>I am dedicating one beautiful song for you 💖</h2>
+      <button id="runButton">Yes 🎵</button>
+    `;
+    document.getElementById("runButton").addEventListener("mouseover",()=>{
+      if(moveCount<maxMoves){
+        this.style.position="relative";
+        this.style.left=(Math.random()*200-100)+"px";
+        this.style.top=(Math.random()*200-100)+"px";
+        moveCount++;
+      }else{
+        showQuestion();
+      }
+    });
+  };
+
+  document.getElementById("noGame").onclick=()=>{
+    speak("Okay calm down dear. I will not irritate you. Here is the surprise your baby made for you.");
+    setTimeout(playSongAndReveal,4000);
+  };
+}
+
+function playSongAndReveal(){
+  popupContent.innerHTML="<h2>Playing your song 🎶</h2>";
+  song.play();
+  song.onended=function(){
+    document.getElementById("songPopup").style.display="none";
+    document.getElementById("mainCard").style.display="block";
+  };
+}
+
+/* SPEECH */
+function speak(text){
+  const speech=new SpeechSynthesisUtterance(text);
+  window.speechSynthesis.speak(speech);
+}
+
+/* SLIDESHOW */
+let slideIndex=0;
+const slides=document.querySelectorAll('.slideshow img');
+setInterval(()=>{
+  slides[slideIndex].classList.remove('active');
+  slideIndex=(slideIndex+1)%slides.length;
+  slides[slideIndex].classList.add('active');
+},2500);
+
+/* HEARTS */
+const hearts=document.getElementById('hearts');
+const emojis=['❤️','💖','💘','💕','💞'];
+function createHeart(){
+  const span=document.createElement('span');
+  span.textContent=emojis[Math.floor(Math.random()*emojis.length)];
+  span.style.left=Math.random()*100+'vw';
+  span.style.animationDuration=(Math.random()*3+4)+'s';
+  hearts.appendChild(span);
+  setTimeout(()=>span.remove(),7000);
+}
+setInterval(createHeart,400);
+
+/* CINEMATIC TEXT */
+function showLove(){
+  const texts=[
+    "I start my bike… just to come see you 🏍️",
+    "Every road leads me closer to you 💭",
+    "I stop right in front of you…",
+    "Look into your eyes… and say 💖"
+  ];
+
+  let i=0;
+  const scene=document.getElementById("sceneText");
+
+  const interval=setInterval(()=>{
+    scene.textContent=texts[i];
+    i++;
+    if(i===texts.length){
+      clearInterval(interval);
+      document.getElementById("mainCard").style.display="none";
+      document.getElementById("wishCard").style.display="block";
+    }
+  },2000);
+}
+
+</script>
+</body>
+</html>
